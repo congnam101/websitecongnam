@@ -1,13 +1,10 @@
 pipeline {
     agent any
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
-    environment {
-        DOCKER_BUILDKIT = 1
-    }
+    // ❌ Không bật BuildKit nếu chưa cài buildx
+    // environment {
+    //     DOCKER_BUILDKIT = 1
+    // }
 
     stages {
         stage('Clone Repo') {
