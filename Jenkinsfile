@@ -1,11 +1,10 @@
 pipeline {
     agent any
 
-    // environment block có thể bị bỏ qua nếu không dùng biến môi trường
-
     stages {
         stage('Clone Repo') {
             steps {
+                echo '🌀 Cloning flask-mysql-app repository...'
                 sh 'rm -rf app || true'
                 sh 'git clone https://github.com/congnam101/flask-mysql-app.git app'
             }
@@ -14,6 +13,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 dir('app') {
+                    echo '🐳 Building Docker image...'
                     sh 'docker build -t flask_mysql_app_web .'
                 }
             }
@@ -22,6 +22,7 @@ pipeline {
         stage('Stop Containers') {
             steps {
                 dir('app') {
+                    echo '🛑 Stopping existing containers (if any)...'
                     sh '''
                         docker-compose down || true
                         docker rm -f flask_web_jenkins || true
@@ -34,6 +35,7 @@ pipeline {
         stage('Start Containers') {
             steps {
                 dir('app') {
+                    echo '🚀 Starting containers...'
                     sh 'docker-compose up -d'
                 }
             }
