@@ -3,7 +3,6 @@ pipeline {
 
     options {
         skipDefaultCheckout(true)
-        cleanWs()
     }
 
     environment {
@@ -46,9 +45,15 @@ pipeline {
     post {
         success {
             echo '✅ Deployment Successful!'
+            cleanWs()
         }
         failure {
             echo '❌ Deployment Failed.'
+            cleanWs()
+        }
+        always {
+            echo '🧹 Cleaning up workspace...'
         }
     }
 }
+
