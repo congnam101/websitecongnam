@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   web:
+    container_name: flask_web_jenkins
     build: .
     ports:
       - "5000:5000"
@@ -9,6 +10,7 @@ services:
       - db
 
   db:
+    container_name: flask_db_jenkins
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -20,3 +22,4 @@ services:
 
 volumes:
   db_data:
+
