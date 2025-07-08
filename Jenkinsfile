@@ -1,10 +1,7 @@
 pipeline {
     agent any
 
-    // ❌ Không bật BuildKit nếu chưa cài buildx
-    // environment {
-    //     DOCKER_BUILDKIT = 1
-    // }
+    // environment block có thể bị bỏ qua nếu không dùng biến môi trường
 
     stages {
         stage('Clone Repo') {
@@ -25,7 +22,11 @@ pipeline {
         stage('Stop Containers') {
             steps {
                 dir('app') {
-                    sh 'docker-compose down || true'
+                    sh '''
+                        docker-compose down || true
+                        docker rm -f flask_web_jenkins || true
+                        docker rm -f flask_db_jenkins || true
+                    '''
                 }
             }
         }
